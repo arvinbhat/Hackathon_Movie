@@ -52,17 +52,17 @@ router.put('/profile',async (req,res)=>{
         res.send(result.createResult(error,data))
     })
 })
-router.put('/forgotPassword',async (req,res)=>{
+router.put('/forgotPassword',(req,res)=>{
     const{email,password} = req.body
     const sql1 = `SELECT * FROM users WHERE email = ?`
     pool.query(sql1,[email],async(error,data)=>{
         if(data != ''){
             const dbUser = data[0]
             if(email === dbUser.email){
-                const sql = `UPDATE users SET password =?`
+                const sql = `UPDATE users SET password =? WHERE user_id = ?`
                 try {
                     const hash =await bcrypt.hash(password,config.saltRound)
-                pool.query(sql,[hash],(error,data)=>{
+                pool.query(sql,[hash, dbUser.user_id],(error,data)=>{
                     res.send(result.createResult(error,data))
                 })
                 } catch (error) {
