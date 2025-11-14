@@ -32,6 +32,13 @@ create table movies (
     constraint fk_cat_id foreign key(category_id) references category(category_id)
 );
 
+create table shares(
+    share_id int primary key AUTO_INCREMENT,
+    review_id int,
+    user_id int,
+    constraint fk_review_id FOREIGN KEY (review_id) references reviews(review_id),
+    constraint fk_users_id FOREIGN KEY (user_id) references users(user_id)
+);
 
 create table reviews(
     review_id int PRIMARY KEY AUTO_INCREMENT,

@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const userRoute = require("./routes/user");
+const reviewRouter = require("./routes/review")
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/user",userRoute)
+app.use("/review",reviewRouter)
 
 app.listen(4000, "0.0.0.0", () => {
   console.log("Server running at port 4000");

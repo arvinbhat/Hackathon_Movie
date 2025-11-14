@@ -39,7 +39,7 @@ router.post('/login',(req,res)=>{
                 if(validUser){
                     const payload = {uid : dbUser.user_id}
                     const token = jwt.sign(payload,config.secret)
-                    const user = {token: token, firstName:dbUser.firstName, lastName:dbUser.lastName}
+                    const user = {token: token, userid:dbUser.user_id, firstName:dbUser.firstName, lastName:dbUser.lastName}
                     res.send(result.createResult(error,user))
                 }else{
                     res.send('Invalid Password..!')
