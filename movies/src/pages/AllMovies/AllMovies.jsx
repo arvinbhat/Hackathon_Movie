@@ -1,33 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function AllMovies() {
-  const arr = [
-    {
-      title: "Avatar",
-      release_date: "2009-02-21",
-      action: "Review this Movie",
-    },
-    {
-      title: "Titanic",
-      release_date: "1997-08-09",
-      action: "Review this Movie",
-    },
-    {
-      title: "The Dark Knight",
-      release_date: "2008-12-16",
-      action: "Review this Movie",
-    },
-  ];
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/movies");
+
+        if (response.data.error) {
+          throw new Error(response.data.error);
+        }
+
+        setMovies(response.data.data);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
-    <div class="card">
-      {arr.map((e) => {
+    <div className="card-group">
+      {movies.map((e) => {
         return (
-          <div class="card-body">
-            <h5 class="card-title">{e.title}</h5>
-            <p class="card-text">Release Date: {e.release_date}</p>
-            <a href="#" class="btn btn-primary">
-              {e.action}
-            </a>
+          <div className="card" key={e.movie_id || e.movie_title}>
+            <div className="card-body">
+              <h5 className="card-title">{e.movie_title}</h5>
+              <p className="card-text">Release Date: 16/12/2012</p>
+              <a href="#" className="btn btn-primary">
+                {e.action ? e.action : "Review this Movie"}
+              </a>
+            </div>
           </div>
         );
       })}
