@@ -52,10 +52,10 @@ router.post('/login',(req,res)=>{
 })
 
 router.put('/profile',async (req,res)=>{
-    const{firstName, lastName, phoneNumber} = req.body
-    const sql = `UPDATE users SET firstName =?, lastName = ?, phoneNumber = ?, password =?`
+    const{firstName, lastName, phoneNumber, user_id} = req.body
+    const sql = `UPDATE users SET firstName =?, lastName = ?, phoneNumber = ?, password =? WHERE user_id = ?`
     const hash =await bcrypt.hash(password,config.saltRound)
-    pool.query(sql,[firstName,lastName,phoneNumber,hash],(error,data)=>{
+    pool.query(sql,[firstName,lastName,phoneNumber,hash, user_id],(error,data)=>{
         res.send(result.createResult(error,data))
     })
 })
