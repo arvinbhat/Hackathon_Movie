@@ -32,13 +32,17 @@ create table movies (
     constraint fk_cat_id foreign key(category_id) references category(category_id)
 );
 
-create table shares(
-    share_id int primary key AUTO_INCREMENT,
-    review_id int,
-    user_id int,
-    constraint fk_review_id FOREIGN KEY (review_id) references reviews(review_id),
-    constraint fk_users_id FOREIGN KEY (user_id) references users(user_id)
+CREATE TABLE shares (
+    share_id INT PRIMARY KEY AUTO_INCREMENT,
+    review_id INT,
+    user_id INT,
+    CONSTRAINT fk_review_id FOREIGN KEY (review_id) 
+        REFERENCES reviews(review_id) 
+        ON DELETE CASCADE,
+    CONSTRAINT fk_users_id FOREIGN KEY (user_id) 
+        REFERENCES users(user_id)
 );
+
 
 create table reviews(
     review_id int PRIMARY KEY AUTO_INCREMENT,
@@ -50,3 +54,11 @@ create table reviews(
     constraint fk_user_id FOREIGN KEY (user_id) references users(user_id),
     constraint fk_movie_id FOREIGN KEY (movie_id) references movies(movie_id)
 );
+
+
+INSERT INTO category (title, details, image)
+VALUES
+('Action', 'High-energy films focusing on physical feats, combat, and dynamic chase sequences.', 'action.jpg'),
+('Drama', 'Serious, realistic films that focus on depth of character, emotion, and interpersonal conflict.', 'drama.jpg'),
+('Adventure', 'Exciting stories featuring travel, exploration, quests, and risk-taking.', 'adventure.jpg'),
+('Animation', 'Films using animated images rather than live actors, often targeting family audiences.', 'animation.jpg');
