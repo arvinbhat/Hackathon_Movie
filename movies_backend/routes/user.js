@@ -7,6 +7,13 @@ const result = require('../utils/result');
 const config = require('../utils/config')
 const router = express.Router();
 
+
+router.get('/profile', (req, res) => {
+  const sql = `SELECT firstName, lastName, phoneNumber, email FROM user WHERE id = ?`
+  pool.query(sql, [req.headers.userId], (error, data) => {
+    res.send(result.createResult(error, data))
+  })
+})
 router.post('/register',async(req,res)=>{
     const {firstName, lastName, email, password, phoneNumber} =req.body
     const sql =`INSERT INTO USERS(firstName,lastName,email,password,phoneNumber) values(?,?,?,?,?)`
@@ -74,6 +81,15 @@ router.put('/forgotPassword',(req,res)=>{
         }
     })
     
+})
+
+router.delete('/',(req,res)=>{
+    const uid = req.uid
+    const sql = `DELETE FROM users WHERE uid = ?`
+
+    pool.query(sql,[uid],(error,data)=>{
+        res.send(result.createResult(error,data))
+    })
 })
 
 module.exports = router;
