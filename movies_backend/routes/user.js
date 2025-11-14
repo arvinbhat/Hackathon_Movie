@@ -44,4 +44,36 @@ router.post('/login',(req,res)=>{
 
 })
 
+router.put('/profile',async (req,res)=>{
+    const{firstName, lastName, phoneNumber} = req.body
+    const sql = `UPDATE users SET firstName =?, lastName = ?, phoneNumber = ?, password =?`
+    const hash =await bcrypt.hash(password,config.saltRound)
+    pool.query(sql,[firstName,lastName,phoneNumber,hash],(error,data)=>{
+        res.send(result.createResult(error,data))
+    })
+})
+router.put('/forgotPassword',async (req,res)=>{
+    const{email,password} = req.body
+    const sql1 = `SELECT * FROM users WHERE email = ?`
+    pool.query(sql1,[email],async(error,data)=>{
+        if(data != ''){
+            const dbUser = data[0]
+            if(email === dbUser.email){
+                const sql = `UPDATE users SET password =?`
+                try {
+                    const hash =await bcrypt.hash(password,config.saltRound)
+                pool.query(sql,[hash],(error,data)=>{
+                    res.send(result.createResult(error,data))
+                })
+                } catch (error) {
+                    res.send(result.createResult(error,data))
+                }
+            }else{
+                req.send("Invalid Email...!")
+            }
+        }
+    })
+    
+})
+
 module.exports = router;
