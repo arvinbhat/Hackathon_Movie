@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function Login() {
@@ -5,10 +6,28 @@ function Login() {
 
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Login submitted:", { email, password });
-  };
+  const onLogin = async() => {
+    if (email.length == 0) {
+      toast.warning('please enter email')
+    } else if (password.length == 0) {
+      toast.warning('please enter password')
+    } else {
+      const url = "http://localhost:4000/user/login"
+      const body = {email, password}
+      const res = await axios.post(url, body)
+      if (res.data['status'] == 'success') {
+        toast.success('Login successful')
+        localStorage.setItem('token', res.data['data']['token'])
+        setUser({
+          firstName: res.data['data']['firstName'],
+          lastName: res.data['data']['lastName'],
+        })
+
+        navigate('/home')
+      } else {
+        toast.error(res.data['error'])
+      }
+    }
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100">
@@ -47,7 +66,7 @@ function Login() {
             </div>
 
             <div className="mt-4">
-              <button type="submit" className="btn btn-success w-100">
+              <button onClick={()=>onLogin()} className="btn btn-success w-100">
                 Login
               </button>
             </div>

@@ -2,6 +2,8 @@ import React from "react";
 import "./Signup.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
@@ -14,7 +16,7 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  const onSignUp = () => {
+  const onSignUp = async () => {
     if (firstName.length === 0) {
       toast.warning("Please enter first name");
     } else if (lastName.length === 0) {
@@ -30,9 +32,15 @@ function Signup() {
     } else if (password !== confirmPassword) {
       toast.warning("Password does not match");
     } else {
-      console.log("Registration successful (placeholder for API call)");
-      navigate("/");
-      toast.success("Registration successful! You can now log in.");
+      const url = `http:://localhost:4000/user/register`;
+      const body = { firstName, lastName, email, password, phone };
+      const res = await axios.post(url, body);
+      if (res.data.status === "success") {
+        navigate("/");
+        toast.success("Registration successful! You can now log in.");
+      } else {
+        toast.error(res.data["error"]);
+      }
     }
   };
 
