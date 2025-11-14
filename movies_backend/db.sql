@@ -126,3 +126,17 @@ VALUES
     "movie_image": "finding_nemo.jpg"
   }
 ]
+
+
+INSERT INTO movies (movie_title, category_id, movie_details, movie_image)
+VALUES
+('Inception', 1, 'A thief who enters the dreams of others to steal secrets from their subconscious.', 'inception.jpg'),
+('The Dark Knight', 1, 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', 'dark_knight.jpg'),
+('Interstellar', 3, 'A team of explorers travel through a wormhole in space in an attempt to ensure humanitys survival.', 'interstellar.jpg'),
+('Pulp Fiction', 2, 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.', 'pulp_fiction.jpg'),
+('The Matrix', 1, 'When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the world he knows is a digital deception.', 'the_matrix.jpg'),
+('Avatar', 3, 'A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.', 'avatar.jpg'),
+('Titanic', 2, 'A seventeen-year-old aristocrat falls in love with a kind, poor artist aboard the luxurious, ill-fated R.M.S. Titanic.', 'titanic.jpg'),
+('The Shawshank Redemption', 2, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', 'shawshank.jpg'),
+('Jurassic Park', 3, 'A pragmatic paleontologist touring an almost complete theme park on an island in Central America is tasked with protecting a couple of kids after a power failure causes the park''s cloned dinosaurs to run loose.', 'jurassic_park.jpg'),
+('Finding Nemo', 4, 'After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.', 'finding_nemo.jpg');
