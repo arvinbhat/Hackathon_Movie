@@ -2,33 +2,41 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Providers/AuthProvider";
 
 function Login() {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const onLogin = async () => {
-    if (email.length == 0) {
-      toast.warning("please enter email");
-    } else if (password.length == 0) {
-      toast.warning("please enter password");
+    if (email.length === 0) {
+      toast.warning("Please enter email");
+    } else if (password.length === 0) {
+      toast.warning("Please enter password");
     } else {
       const url = "http://localhost:4000/user/login";
       const body = { email, password };
-      const res = await axios.post(url, body);
-      if (res.data["status"] == "success") {
-        toast.success("Login successful");
-        localStorage.setItem("token", res.data["data"]["token"]);
-        // setUser({
-        //   firstName: res.data["data"]["firstName"],
-        //   lastName: res.data["data"]["lastName"],
-        // });
+      try {
+        const res = await axios.post(url, body);
 
-        navigate("/home");
-      } else {
-        toast.error(res.data["error"]);
+        if (res.data.status === "success") {
+          toast.success("Login successful");
+          const { token, firstName, lastName } = res.data.data;
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify({ firstName, lastName }));
+          setUser({
+            firstName: firstName,
+            lastName: lastName,
+          });
+
+          navigate("/home");
+        } else {
+          toast.error(res.data.error);
+        }
+      } catch (error) {
+        toast.error("An error occurred during login.");
       }
     }
   };

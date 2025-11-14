@@ -10,7 +10,7 @@ function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -23,8 +23,8 @@ function Signup() {
       toast.warning("Please enter last name");
     } else if (email.length === 0) {
       toast.warning("Please enter email");
-    } else if (phone.length === 0) {
-      toast.warning("Please enter phone number");
+    } else if (phoneNumber.length === 0) {
+      toast.warning("Please enter phone Number");
     } else if (password.length === 0) {
       toast.warning("Please enter password");
     } else if (confirmPassword.length === 0) {
@@ -32,8 +32,8 @@ function Signup() {
     } else if (password !== confirmPassword) {
       toast.warning("Password does not match");
     } else {
-      const url = `http:://localhost:4000/user/register`;
-      const body = { firstName, lastName, email, password, phone };
+      const url = `http://localhost:4000/user/register`;
+      const body = { firstName, lastName, email, password, phoneNumber };
       const res = await axios.post(url, body);
       if (res.data.status === "success") {
         navigate("/");
@@ -93,12 +93,12 @@ function Signup() {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="phoneInput" className="form-label">
-                  Phone Number
+                <label htmlFor="phoneNumberInput" className="form-label">
+                  phone Number
                 </label>
                 <input
-                  id="phoneInput"
-                  onChange={(e) => setPhone(e.target.value)}
+                  id="phoneNumberInput"
+                  onChange={(e) => setphoneNumber(e.target.value)}
                   type="tel"
                   className="form-control"
                   placeholder="e.g., 123-456-7890"
